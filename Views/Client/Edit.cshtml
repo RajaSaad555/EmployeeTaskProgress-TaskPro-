@@ -1,0 +1,111 @@
+﻿@model EmployeeTaskProgress.Models.Client
+
+@{
+    ViewData["Title"] = "Edit Client";
+}
+
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-warning bg-gradient p-4 border-0">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3 me-3 text-white">
+                            <i class="bi bi-pencil-square fs-3"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0 fw-bold text-white">Edit Client Details</h3>
+                            <p class="mb-0 small text-white opacity-75">Modify the information for Client #@Model.Id</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5 bg-white">
+                    <form method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="mb-4">
+                            <label asp-for="ClientName" class="form-label fw-bold text-dark">Client Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-warning">
+                                    <i class="bi bi-person-badge-fill"></i>
+                                </span>
+                                <input asp-for="ClientName" class="form-control form-control-lg border-start-0 bg-light shadow-none lush-input"
+                                       placeholder="Enter client name..." />
+                            </div>
+                            <span asp-validation-for="ClientName" class="text-danger small"></span>
+                        </div>
+
+                        <hr class="my-4 opacity-25">
+
+                        <div class="d-flex gap-3 justify-content-end">
+                            <a href="/Client/index" class="btn btn-light btn-lg px-4 fw-semibold text-muted border-0 shadow-sm hover-back">
+                                <i class="bi bi-x-circle me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-warning btn-lg px-5 fw-bold text-white shadow-sm hover-update">
+                                <i class="bi bi-cloud-arrow-up-fill me-2"></i>Update Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <small class="text-muted italic">
+                    <i class="bi bi-shield-lock me-1"></i> Changes will be reflected across all related projects.
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Lush Edit Specific Styles */
+    .lush-input {
+        border-radius: 0 12px 12px 0 !important;
+        transition: all 0.3s ease;
+    }
+
+        .lush-input:focus {
+            background-color: #fff !important;
+            border-color: #ffc107 !important; /* Warning color focus */
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.15) !important;
+        }
+
+    .input-group-text {
+        border-radius: 12px 0 0 12px !important;
+    }
+
+    .btn-warning {
+        background: linear-gradient(45deg, #ffc107, #ff9800);
+        border: none;
+    }
+
+    .hover-update:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(255, 152, 0, 0.3) !important;
+    }
+
+    .hover-back:hover {
+        background-color: #f8f9fa !important;
+        color: #dc3545 !important; /* Turns slightly red on cancel hover */
+    }
+
+    /* Subtle Entry Animation */
+    .card {
+        animation: slideInRight 0.4s ease-out;
+    }
+
+    @@keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+</style>

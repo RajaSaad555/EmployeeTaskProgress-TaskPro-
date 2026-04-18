@@ -1,0 +1,144 @@
+﻿@model IEnumerable<EmployeeTaskProgress.Models.User>
+
+@{
+    ViewData["Title"] = "System Users";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 adaptive-header p-4 rounded-4 shadow-sm border-bottom border-info border-opacity-10">
+        <div>
+            <h2 class="fw-bold adaptive-text mb-0">System Users</h2>
+            <p class="adaptive-muted mb-0 small">Manage admin and staff credentials</p>
+        </div>
+        <a href="/User/Create" class="btn btn-primary btn-lg shadow-sm px-4 rounded-3">
+            <i class="bi bi-person-plus-fill me-2"></i>Add New User
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden adaptive-card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 adaptive-table">
+                    <thead class="bg-adaptive-light text-uppercase">
+                        <tr>
+                            <th class="ps-4 py-3 adaptive-text opacity-75 small fw-bold" style="width: 100px;">ID</th>
+                            <th class="py-3 adaptive-text opacity-75 small fw-bold">User Details</th>
+                            <th class="py-3 adaptive-text opacity-75 small fw-bold">Email Address</th>
+                            <th class="py-3 adaptive-text opacity-75 small fw-bold text-center" style="width: 200px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="badge bg-adaptive-light adaptive-text border border-opacity-10 px-3 py-2 rounded-3 fw-normal">
+                                        #@item.Id
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-sm me-3 bg-soft-info text-info rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm">
+                                            @item.Username.Substring(0, 1).ToUpper()
+                                        </div>
+                                        <span class="fw-semibold adaptive-text fs-6">@item.Username</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="adaptive-muted small">
+                                        <i class="bi bi-envelope me-1"></i> @item.Email
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group gap-2">
+                                        <a href="/User/Edit/@item.Id" class="btn btn-outline-warning btn-sm rounded-2 px-3 action-btn">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+                                        <a href="/User/Delete/@item.Id" class="btn btn-outline-danger btn-sm rounded-2 px-3 action-btn"
+                                           onclick="return confirm('Are you sure you want to delete this user?')">
+                                            <i class="bi bi-trash3"></i> Delete
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* --- Lush Light Mode Styles --- */
+    .adaptive-header {
+        background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%) !important;
+        border: 1px solid #eef2f6 !important;
+    }
+
+    .adaptive-card {
+        background-color: #ffffff !important;
+        transition: all 0.3s ease;
+    }
+
+    .adaptive-text {
+        color: #1362b1 !important; /* Premium Blue */
+    }
+
+    .adaptive-muted {
+        color: #5a7184 !important;
+    }
+
+    .bg-adaptive-light {
+        background-color: #f1f4f9 !important;
+    }
+
+    /* --- Dark Mode Overrides --- */
+    [data-theme="dark"] .adaptive-header,
+    .dark-mode .adaptive-header,
+    [data-theme="dark"] .adaptive-card,
+    .dark-mode .adaptive-card {
+        background: #242424 !important;
+        border: none !important;
+    }
+
+    [data-theme="dark"] .adaptive-text,
+    .dark-mode .adaptive-text {
+        color: #f8f9fa !important;
+    }
+
+    [data-theme="dark"] .adaptive-muted,
+    .dark-mode .adaptive-muted {
+        color: #adb5bd !important;
+    }
+
+    [data-theme="dark"] .bg-adaptive-light,
+    .dark-mode .bg-adaptive-light {
+        background-color: #2d2d2d !important;
+    }
+
+    /* --- User Specific Elements --- */
+    .bg-soft-info {
+        background-color: rgba(13, 202, 240, 0.1) !important;
+        color: #0dcaf0 !important;
+    }
+
+    .avatar-sm {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(13, 202, 240, 0.02) !important;
+    }
+
+    .action-btn {
+        transition: all 0.2s;
+        border-width: 1.5px;
+    }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+</style>

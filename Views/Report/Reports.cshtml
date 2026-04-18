@@ -1,0 +1,158 @@
+﻿@using EmployeeTaskProgress.ViewModels
+@model ReportViewModel
+<div class="container-fluid py-4">
+    <div class="adaptive-header p-4 rounded-4 shadow-sm mb-4 border-bottom border-primary border-opacity-10">
+        <h2 class="fw-bold adaptive-text mb-1"><i class="bi bi-file-earmark-bar-graph me-2"></i>Work Reports</h2>
+        <p class="adaptive-muted mb-0 small">Filter and analyze employee performance and project hours.</p>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 mb-4 adaptive-card">
+        <div class="card-body p-4">
+            <form method="get" asp-action="Reports">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label small fw-bold adaptive-text">Users / Resources</label>
+                        <select name="SelectedUserIds" class="form-select select2" multiple>
+                            @foreach (var u in ViewBag.Users)
+                            {
+                                <option value="@u.Id">@u.Username</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label small fw-bold adaptive-text">Projects</label>
+                        <select name="SelectedProjectIds" class="form-select select2" multiple>
+                            @foreach (var p in ViewBag.Projects)
+                            {
+                                <option value="@p.Id">@p.ProjectName</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label small fw-bold adaptive-text">Time Period</label>
+                        <select asp-for="DateRange" class="form-select shadow-none border-opacity-25" id="timePeriod">
+                            <option value="all">All Time</option>
+                            <option value="this_week">This Week</option>
+                            <option value="this_month">This Month</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 d-none" id="customDateSection">
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="form-label small fw-bold adaptive-text">From</label>
+                                <input type="date" asp-for="FromDate" class="form-control border-opacity-25">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-bold adaptive-text">To</label>
+                                <input type="date" asp-for="ToDate" class="form-control border-opacity-25">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-end mt-3">
+                        <a asp-action="Reports" class="btn btn-outline-secondary px-4 rounded-3 shadow-sm me-2">
+                            <i class="bi bi-x-circle me-2"></i>Clear
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4 rounded-3 shadow-sm">
+                            <i class="bi bi-filter me-2"></i>Generate Report
+                        </button>
+                    </div>
+                
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 adaptive-card overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-adaptive-light text-uppercase">
+                    <tr>
+                        <th class="ps-4 py-3 small fw-bold adaptive-text opacity-75">Resource</th>
+                        <th class="py-3 small fw-bold adaptive-text opacity-75">Task Details</th>
+                        <th class="py-3 small fw-bold adaptive-text opacity-75">Project</th>
+                        <th class="py-3 small fw-bold adaptive-text opacity-75 text-center">Date & Time</th>
+                        <th class="py-3 small fw-bold adaptive-text opacity-75 text-center">Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Results != null && Model.Results.Any())
+                    {
+                        @foreach (var item in Model.Results)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-xs me-2 bg-soft-primary text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width:30px; height:30px; font-size:12px;">
+                                            @item.User?.Username.Substring(0, 1).ToUpper()
+                                        </div>
+                                        <span class="fw-semibold small">@item.User?.Username</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-dark small">@item.Description</div>
+                                    <div class="text-muted extra-small" style="font-size: 11px;">@item.TaskDateTime.ToString("hh:mm tt") - @item.EndDateTime.ToString("hh:mm tt")</div>
+                                </td>
+                                <td><span class="badge bg-light text-dark border fw-normal">@item.Project?.ProjectName</span></td>
+                                <td class="text-center small">@item.TaskDateTime.ToString("MMM dd, yyyy")</td>
+                                <td class="text-center fw-bold text-primary">@((item.EndDateTime - item.TaskDateTime).TotalHours.ToString("N1"))</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">No records found for the selected filters.</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot class="bg-light border-top border-2">
+                    <tr>
+                        <td colspan="4" class="text-end fw-bold py-3 adaptive-text">Total Work Hours:</td>
+                        <td class="text-center fw-bold py-3 text-primary fs-5">@Model.TotalHours.ToString("N1") hrs</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    .select2-container--bootstrap-5 .select2-selection {
+        border-radius: 8px;
+        border-color: rgba(0,0,0,0.1);
+    }
+
+    .bg-soft-primary {
+        background-color: rgba(78, 115, 223, 0.1);
+    }
+
+    .extra-small {
+        font-size: 0.75rem;
+    }
+</style>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Select options",
+                width: '100%',
+                theme: 'classic'
+            });
+
+            $('#timePeriod').change(function() {
+                if ($(this).val() === 'custom') {
+                    $('#customDateSection').removeClass('d-none');
+                } else {
+                    $('#customDateSection').addClass('d-none');
+                }
+            });
+        });
+    </script>
+}

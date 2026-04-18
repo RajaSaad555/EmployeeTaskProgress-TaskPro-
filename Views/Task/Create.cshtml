@@ -1,0 +1,125 @@
+﻿@model EmployeeTaskProgress.Models.TaskItem
+
+@{
+    ViewData["Title"] = "Add New Task";
+}
+
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-indigo bg-gradient p-4 border-0" style="background: linear-gradient(45deg, #6610f2, #4b0db8) !important;">
+                    <div class="d-flex align-items-center text-white">
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3 me-3">
+                            <i class="bi bi-clock-history fs-3"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0 fw-bold">Task Time Logger</h3>
+                            <p class="mb-0 small opacity-75">Logging task for @ViewBag.PassedDate</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5 bg-white">
+                    <form asp-action="Create" method="post">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary"><i class="bi bi-calendar-event me-1"></i> Task Date</label>
+                            <input type="date" name="TaskDate" id="taskDate" 
+                                   value="@ViewBag.PassedDate" 
+                                   class="form-control form-control-lg bg-light border-0 lush-input" required />
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ProjectId" class="form-label fw-bold text-secondary"><i class="bi bi-folder2-open me-1"></i> Project</label>
+                            <select asp-for="ProjectId" asp-items="ViewBag.Projects" class="form-select form-select-lg bg-light border-0 lush-input cursor-pointer" required>
+                                <option value="" disabled selected>-- Assign to Project --</option>
+                            </select>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-primary"><i class="bi bi-play-circle-fill me-1"></i> Start Hour</label>
+                                <select name="StartHour" id="startHour" class="form-select form-select-lg bg-white border lush-input" required>
+                                    @for (int i = 0; i < 24; i++)
+                                    {
+                                        var label = i == 0 ? "12 AM" : (i < 12 ? i + " AM" : (i == 12 ? "12 PM" : (i - 12) + " PM"));
+
+                                        if (i == ViewBag.PassedStart)
+                                        {
+                                            <option value="@i" selected>@label</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@label</option>
+                                        }
+                                    }
+                                </select>
+
+                            
+                            </div>
+
+                            <div class="col-md-6 mt-3 mt-md-0">
+                                <label class="form-label fw-bold text-danger"><i class="bi bi-stop-circle-fill me-1"></i> End Hour</label>
+                               
+
+                                <select name="EndHour" id="endHour" class="form-select form-select-lg bg-white border lush-input" required>
+                                    @for (int i = 0; i < 24; i++)
+                                    {
+                                        var label = i == 0 ? "12 AM" : (i < 12 ? i + " AM" : (i == 12 ? "12 PM" : (i - 12) + " PM"));
+
+                                        if (i == ViewBag.PassedEnd)
+                                        {
+                                            <option value="@i" selected>@label</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@label</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label fw-bold text-secondary"><i class="bi bi-card-text me-1"></i> What was done?</label>
+                            <textarea asp-for="Description" class="form-control bg-light border-0 lush-input" rows="3" placeholder="Describe your work..." required></textarea>
+                        </div>
+
+                        <hr class="my-4 opacity-10">
+
+                        <div class="d-flex flex-column flex-sm-row gap-3">
+                            <a href="/Task/Calendar" class="btn btn-light btn-lg flex-grow-1 fw-semibold text-muted border py-3 shadow-sm hover-red">Back to Calendar</a>
+                            <button type="submit" class="btn btn-indigo btn-lg flex-grow-1 fw-bold py-3 text-white shadow hover-glow" style="background-color: #6610f2;">
+                                <i class="bi bi-check2-circle me-1"></i> Save Task Log
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // NOTE: Humne yahan se default date wala script hata diya hai 
+        // kyunki ab value direct HTML ke value attribute mein aa rahi hai.
+
+        const startSelect = document.getElementById('startHour');
+        const endSelect = document.getElementById('endHour');
+
+        function validateHours() {
+            let start = parseInt(startSelect.value);
+            let end = parseInt(endSelect.value);
+
+            if (end <= start && end !== 0) {
+                endSelect.classList.add('is-invalid');
+            } else {
+                endSelect.classList.remove('is-invalid');
+            }
+        }
+
+        startSelect.addEventListener('change', validateHours);
+        endSelect.addEventListener('change', validateHours);
+    </script>
+}

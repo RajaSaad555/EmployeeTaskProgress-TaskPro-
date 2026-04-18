@@ -1,0 +1,201 @@
+﻿@model DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard Overview";
+}
+
+<div class="container-fluid dashboard-container">
+    <div class="mb-4 pt-3">
+        <h2 class="fw-bold adaptive-text">Welcome Back, Admin! 👋</h2>
+        <p class="text-muted">Here's what's happening with your projects today.</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-3 adaptive-card" style="border-left: 5px solid #4e73df !important;">
+                <div class="d-flex align-items-center">
+                    <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                        <i class="bi bi-people text-primary fs-3"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-1 text-uppercase small fw-bold">Total Clients</h6>
+                        <h3 class="fw-bold mb-0 adaptive-text">@Model.ClientsCount</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-3 adaptive-card" style="border-left: 5px solid #1cc88a !important;">
+                <div class="d-flex align-items-center">
+                    <div class="bg-success bg-opacity-10 p-3 rounded-circle me-3">
+                        <i class="bi bi-kanban text-success fs-3"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-1 text-uppercase small fw-bold">Active Projects</h6>
+                        <h3 class="fw-bold mb-0 adaptive-text">@Model.ProjectsCount</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-3 adaptive-card" style="border-left: 5px solid #f6c23e !important;">
+                <div class="d-flex align-items-center">
+                    <div class="bg-warning bg-opacity-10 p-3 rounded-circle me-3">
+                        <i class="bi bi-list-check text-warning fs-3"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-1 text-uppercase small fw-bold">Tasks Logged</h6>
+                        <h3 class="fw-bold mb-0 adaptive-text">@Model.TasksCount</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 adaptive-card">
+                <div class="card-header border-0 p-4 d-flex justify-content-between align-items-center bg-transparent">
+                    <h5 class="fw-bold mb-0 adaptive-text">Recent Activities</h5>
+                    <a href="/Task/index" class="btn btn-sm btn-outline-primary rounded-pill">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0 adaptive-table">
+                            <thead class="bg-adaptive-light">
+                                <tr>
+                                    <th class="ps-4 adaptive-text opacity-75">Task</th>
+                                    <th class="adaptive-text opacity-75">Project</th>
+                                    <th class="adaptive-text opacity-75">Time Slot</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in Model.RecentTasks)
+                                {
+                                    <tr>
+                                        <td class="ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm me-2 bg-soft-indigo text-indigo rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                                                    <i class="bi bi-card-checklist"></i>
+                                                </div>
+                                                <span class="fw-medium adaptive-text">@task.Description</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-soft-info text-info rounded-pill px-3">
+                                                <i class="bi bi-folder2 me-1"></i> @task.Project.ProjectName
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="small fw-bold adaptive-text">
+                                                @task.TaskDateTime.ToString("dd MMM")
+                                            </div>
+                                            <div class="mt-1">
+                                                <span class="badge bg-soft-indigo text-indigo border border-indigo border-opacity-10 px-2 py-1 fw-normal" style="font-size: 0.75rem;">
+                                                    <i class="bi bi-clock me-1"></i>
+                                                    @task.TaskDateTime.ToString("hh tt") - @task.EndDateTime.ToString("hh tt")
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 adaptive-card">
+                <div class="card-header border-0 p-4 bg-transparent">
+                    <h5 class="fw-bold mb-0 adaptive-text">Newest Projects</h5>
+                </div>
+                <div class="card-body pt-0">
+                    @foreach (var proj in Model.RecentProjects)
+                    {
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="avatar-sm bg-adaptive-light rounded-3 p-2 me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <i class="bi bi-folder2 text-secondary fs-5"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0 fw-bold adaptive-text">@proj.ProjectName</h6>
+                                <small class="text-muted">Client: @proj.Client.ClientName</small>
+                            </div>
+                            <a href="/Project/Edit/@proj.Id" class="btn btn-link text-decoration-none p-0 adaptive-link">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* --- Theme Adaptability Logic --- */
+
+    /* Default Colors (Light Mode) */
+    .adaptive-card {
+        background-color: #ffffff !important;
+        transition: all 0.3s ease;
+    }
+
+    .adaptive-text {
+        color: ##1362b1 !important;
+    }
+
+    .bg-adaptive-light {
+        background-color: #f8f9fa !important;
+    }
+
+    .adaptive-table {
+        color: #212529 !important;
+    }
+
+    .adaptive-link {
+        color: #6c757d !important;
+    }
+
+    /* Dark Mode (Jab body par .dark-mode class ho ya data-theme="dark" ho) */
+    [data-theme="dark"] .adaptive-card,
+    .dark-mode .adaptive-card {
+        background-color: #242424 !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+    }
+
+    [data-theme="dark"] .adaptive-text,
+    .dark-mode .adaptive-text {
+        color: #f8f9fa !important;
+    }
+
+    [data-theme="dark"] .bg-adaptive-light,
+    .dark-mode .bg-adaptive-light {
+        background-color: #2d2d2d !important;
+    }
+
+    [data-theme="dark"] .adaptive-table thead,
+    .dark-mode .adaptive-table thead {
+        background-color: #2d2d2d !important;
+    }
+
+    [data-theme="dark"] .table-hover tbody tr:hover,
+    .dark-mode .table-hover tbody tr:hover {
+        background-color: #333333 !important;
+        color: white !important;
+    }
+
+    /* Keep Badges Readable */
+    .bg-soft-indigo {
+        background-color: rgba(102, 16, 242, 0.1) !important;
+        color: #6610f2 !important;
+    }
+
+    .bg-soft-info {
+        background-color: rgba(13, 202, 240, 0.1) !important;
+        color: #0dcaf0 !important;
+    }
+</style>

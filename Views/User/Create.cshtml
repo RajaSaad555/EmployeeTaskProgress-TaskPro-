@@ -1,0 +1,33 @@
+﻿@model EmployeeTaskProgress.Models.User
+
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-primary bg-gradient p-4 border-0">
+                    <h3 class="mb-0 fw-bold text-white"><i class="bi bi-person-plus me-2"></i>Create User</h3>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Username</label>
+                            <input asp-for="Username" class="form-control form-control-lg bg-light" placeholder="johndoe" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email Address</label>
+                            <input asp-for="Email" type="email" class="form-control form-control-lg bg-light" placeholder="john@example.com" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Password</label>
+                            <input asp-for="Password" type="password" class="form-control form-control-lg bg-light" />
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold">Save User</button>
+                            <a href="/User" class="btn btn-light border">Back</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

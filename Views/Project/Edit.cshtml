@@ -1,0 +1,130 @@
+﻿@model EmployeeTaskProgress.Models.Project
+
+@{
+    ViewData["Title"] = "Edit Project";
+}
+
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <div class="card-header bg-primary bg-gradient p-4 border-0" style="background: linear-gradient(45deg, #4e73df, #224abe) !important;">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-white bg-opacity-20 rounded-circle p-3 me-3 text-white">
+                            <i class="bi bi-folder2-open fs-3"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0 fw-bold text-white">Edit Project Settings</h3>
+                            <p class="mb-0 small text-white opacity-75">Update information for: <strong>@Model.ProjectName</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5 bg-white">
+                    <form method="post" class="needs-validation">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="mb-4 position-relative">
+                            <label asp-for="ProjectName" class="form-label fw-bold text-indigo">Project Title</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0 rounded-start-3">
+                                    <i class="bi bi-type text-primary"></i>
+                                </span>
+                                <input asp-for="ProjectName" class="form-control form-control-lg border-start-0 shadow-none lush-input rounded-end-3"
+                                       placeholder="Edit project name..." required />
+                            </div>
+                            <span asp-validation-for="ProjectName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ClientId" class="form-label fw-bold text-indigo">Assigned Client</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0 rounded-start-3">
+                                    <i class="bi bi-person-workspace text-primary"></i>
+                                </span>
+                                <select asp-for="ClientId" asp-items="ViewBag.ClientId" class="form-select form-select-lg border-start-0 shadow-none lush-input rounded-end-3 cursor-pointer">
+                                </select>
+                            </div>
+                            <div class="form-text text-end mt-1 small">Change this only if the project is being transferred.</div>
+                        </div>
+
+                        <hr class="my-5 opacity-10">
+
+                        <div class="d-flex flex-column flex-sm-row gap-3">
+                            <a href="/Project/index" class="btn btn-light btn-lg flex-grow-1 fw-semibold text-muted border py-3 shadow-sm hover-red">
+                                <i class="bi bi-arrow-left-circle me-2"></i>Discard Changes
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg flex-grow-1 fw-bold py-3 shadow hover-glow">
+                                <i class="bi bi-cloud-check-fill me-2"></i>Save Updates
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <span class="badge bg-soft-info text-info border px-3 py-2 rounded-pill">
+                    <i class="bi bi-info-circle me-1"></i> Project ID: @Model.Id
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Lush Indigo Theme */
+    .text-indigo {
+        color: #4e73df;
+    }
+
+    .lush-input {
+        border: 1.5px solid #eaecf4;
+        background-color: #f8f9fc;
+        transition: all 0.3s ease;
+    }
+
+        .lush-input:focus {
+            background-color: #fff !important;
+            border-color: #4e73df !important;
+            box-shadow: 0 0 15px rgba(78, 115, 223, 0.1) !important;
+        }
+
+    .hover-glow:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(78, 115, 223, 0.3) !important;
+    }
+
+    .hover-red:hover {
+        background-color: #fff5f5 !important;
+        color: #e74a3b !important;
+        border-color: #e74a3b !important;
+    }
+
+    .bg-soft-info {
+        background-color: rgba(54, 185, 204, 0.1);
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    /* Entry Animation */
+    .card {
+        animation: slideUpFade 0.5s ease-out;
+    }
+
+    @@keyframes slideUpFade {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

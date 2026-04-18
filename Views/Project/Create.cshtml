@@ -1,0 +1,115 @@
+﻿@model EmployeeTaskProgress.Models.Project
+
+@{
+    ViewData["Title"] = "Create Project";
+}
+
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <div class="card-header bg-dark bg-gradient p-4 border-0">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary rounded-3 p-3 me-3 shadow">
+                            <i class="bi bi-folder-plus text-white fs-3"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0 fw-bold text-white">Initialize New Project</h3>
+                            <p class="mb-0 small text-white opacity-75">Link a fresh project to an existing client</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="Create" method="post" class="needs-validation">
+
+                        <div class="mb-4">
+                            <label asp-for="ProjectName" class="form-label fw-bold text-secondary">
+                                <i class="bi bi-pencil-square me-1"></i> Project Name
+                            </label>
+                            <input asp-for="ProjectName" class="form-control form-control-lg bg-light border-2 custom-focus shadow-none"
+                                   placeholder="e.g. Website Redesign 2024" required />
+                            <div class="form-text mt-2">Give it a unique and descriptive name.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ClientId" class="form-label fw-bold text-secondary">
+                                <i class="bi bi-person-check-fill me-1"></i> Assign to Client
+                            </label>
+                            <div class="position-relative">
+                                <select asp-for="ClientId" asp-items="ViewBag.Clients" class="form-select form-select-lg bg-light border-2 custom-focus shadow-none cursor-pointer" required>
+                                    <option value="" disabled selected>-- Search & Select Client --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr class="my-5 opacity-10">
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="@Url.Action("Index", "Project")" class="text-decoration-none text-muted fw-semibold">
+                                <i class="bi bi-arrow-left"></i> Back to Projects
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg px-5 py-3 fw-bold rounded-3 shadow hover-lift">
+                                <i class="bi bi-rocket-takeoff-fill me-2"></i> Launch Project
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 rounded-3 bg-primary bg-opacity-10 border border-primary border-opacity-25">
+                <p class="mb-0 small text-primary text-center">
+                    <strong>Tip:</strong> Once created, you can start adding tasks and milestones to this project.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Lush Project Styles */
+    .custom-focus {
+        border-color: #e9ecef !important;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .custom-focus:focus {
+            border-color: #0d6efd !important;
+            background-color: #fff !important;
+            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.1) !important;
+        }
+
+    .hover-lift {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .hover-lift:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(25, 135, 84, 0.3) !important;
+        }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    /* Animation */
+    .card {
+        animation: zoomIn 0.4s cubic-bezier(0.12, 0, 0.39, 0);
+    }
+
+    @@keyframes zoomIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+</style>
